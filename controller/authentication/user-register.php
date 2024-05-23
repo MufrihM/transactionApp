@@ -23,6 +23,8 @@ if ($stmt = $db->prepare('SELECT email FROM users WHERE email = ?')) {
             $stmt->bind_param('iss', $_POST['id_user'], $_POST['email'], $password);
             $stmt->execute();
             // registration successful
+            $response = ["email_exists" => "false"];
+            echo json_encode($response);
         } else {
             echo 'Could not prepare statement!';
         }
