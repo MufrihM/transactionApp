@@ -12,7 +12,10 @@ if ($stmt = $db->prepare('SELECT email FROM users WHERE email = ?')) {
     $stmt->execute();
     $stmt->store_result();
     if ($stmt->num_rows > 0) {
-        echo 'Email exists, please choose another!';
+        $response = ["email_exists" => "true"];
+
+        // Output the JSON data
+        echo json_encode($response);
     } else {
         if ($stmt = $db->prepare('INSERT INTO users (id_user, email, password) VALUES (?, ?, ?)')) {
             // encrypt the password
