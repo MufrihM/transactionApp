@@ -1,2 +1,5 @@
 # ignore all directories with the name test
 test/
+
+# ignore all files with the name desktop.ini
+desktop.ini
