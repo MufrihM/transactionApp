@@ -7,27 +7,27 @@ class Customers
     private $phone;
     private $address;
 
-    function get_id_customer()
+    function getIdCustomer()
     {
         return $this->id_customer;
     }
 
-    function get_full_name()
+    function getFullName()
     {
         return $this->full_name;
     }
 
-    function get_email()
+    function getEmail()
     {
         return $this->email;
     }
 
-    function get_phone()
+    function getPhone()
     {
         return $this->phone;
     }
 
-    function get_address()
+    function getAddress()
     {
         return $this->address;
     }
