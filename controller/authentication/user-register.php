@@ -19,13 +19,7 @@ if ($stmt = $db->prepare('SELECT email FROM users WHERE email = ?')) {
             $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
             $stmt->bind_param('iss', $_POST['id_user'], $_POST['email'], $password);
             $stmt->execute();
-            // register the user is successful
-            echo "<script>";
-
-            // echo "alert('You have successfully registered, you can now login!');";
-            
-            // echo "location.href = '../../view/test/register.php';";
-            echo "</script>";
+            // registration successful
         } else {
             echo 'Could not prepare statement!';
         }
