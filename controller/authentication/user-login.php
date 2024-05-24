@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 include '../../database/connection.php';
 
@@ -7,10 +8,12 @@ if ($query = $db->prepare('SELECT * FROM users WHERE email = ?')) {
     $query->execute();
     $query->store_result();
     if ($query->num_rows > 0) {
-        // Bind the result to variables
         $query->bind_result($id_user, $email, $hashedPassword);
         $query->fetch();
         if (password_verify($_POST['password'], $hashedPassword)) {
+            // set session
+            $_SESSION['login']= true; 
+
             $response = ["login" => "true"];
             echo json_encode($response);
         } else{
