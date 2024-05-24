@@ -12,12 +12,32 @@ if ($query = $db->prepare('SELECT * FROM users WHERE email = ?')) {
         $query->fetch();
         if (password_verify($_POST['password'], $hashedPassword)) {
             // set session
-            $_SESSION['login']= true; 
+            $_SESSION['login'] = true;
+            $_SESSION['id_user'] = $id_user;
+
+            // set cookie
+            if (isset($_POST['remember'])) {
+
+                // create new cookie
+                setcookie(
+                    'id_user',
+                    $id_user,
+                    time() + (86400 * 7),
+                    "/"
+                ); // 86400 = 1 day 
+
+                setcookie(
+                    'token',
+                    hash('sha256', $email),
+                    time() + (86400 * 7),
+                    '/'
+                );
+            }
 
             $response = ["login" => "true"];
             echo json_encode($response);
-        } else{
-            $response = ["login"=> "false"];
+        } else {
+            $response = ["login" => "false"];
             echo json_encode($response);
         }
     } else {

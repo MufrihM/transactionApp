@@ -20,5 +20,3 @@ class Users{
         return $this->password;
     }
 }
-
-?>

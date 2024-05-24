@@ -20,5 +20,3 @@ class Cash{
         return $this->total_cash;
     }
 }
-
-?>
