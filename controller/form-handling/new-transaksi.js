@@ -4,7 +4,7 @@ $(document).ready(function () {
 		var data = $(this).serialize();
 
 		$.post(
-			"../../../transactionApp/controller/tools/new-transaksi.php",
+			"../../../transactionApp/controller/tools/transaksi.php?action=create",
 			data,
 			function () {
 				Swal.fire({
