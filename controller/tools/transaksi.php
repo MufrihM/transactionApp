@@ -46,12 +46,33 @@ function setNewTransaksi($db, $id_user){
     }
 }
 
+function setUpdateTransaksi($db, $data){
+    if ($stmt = $db->prepare(
+        'UPDATE transaksi 
+        SET name_transaksi = ?, date_transaksi = ?, total_transaksi = ?, type_transaksi = ? 
+        WHERE id_transaksi = ?'
+    )) {
+        $stmt->bind_param(
+            'ssisi',
+            $data['name'],
+            $data['date'],
+            $data['total'],
+            $data['type'],
+            $_GET['id']
+        );
+        $stmt->execute();
+        $stmt->close();
+    } else {
+        echo 'Could not prepare statement!';
+    }
+}
+
 switch ($_GET['action']) {
     case 'create':
         setNewTransaksi($db, $id_user);
         break;
     case 'update':
-        $film->update($_POST);
+        setUpdateTransaksi($db, $_POST);
         break;
     default:
         break;
