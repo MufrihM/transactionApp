@@ -12,29 +12,41 @@ if ($stmt = $db->prepare('SELECT email FROM users WHERE email = ?')) {
         // Output the JSON data
         echo json_encode($response);
     } else {
-        if ($stmt = $db->prepare('INSERT INTO users (id_user, email, password) VALUES (?, ?, ?)')) {
+        // insert user data
+        if ($stmt = $db->prepare('INSERT INTO users (id_user, email, password) VALUES (NULL, ?, ?)')) {
             // encrypt the password
             $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-            $stmt->bind_param('iss', $_POST['id_user'], $_POST['email'], $password);
+            $stmt->bind_param('ss', $_POST['email'], $password);
             $stmt->execute();
 
+            // insert customer data
             if ($insert_customer = $db->prepare('INSERT INTO customers (id_customer, id_user, name, phone, address) 
-            VALUES (?, (select id_user from users where email = ?), ?, ?, ?)')) {
+            VALUES (NULL, (select id_user from users where email = ?), ?, ?, ?)')) {
 
                 $insert_customer->bind_param(
-                    'issss',
-                    $_POST['id_customer'],
+                    'ssss',
                     $_POST['email'],
                     $_POST['name'],
                     $_POST['phone'],
                     $_POST['address']
                 );
-
                 $insert_customer->execute();
+                $insert_customer->close();
 
                 // registration successful
                 $response = ["email_exists" => "false"];
                 echo json_encode($response);
+            } else {
+                echo 'Could not prepare statement!';
+            }
+
+            // insert wallet data
+            if ($create_wallet = $db->prepare(
+                'INSERT INTO cash (id_cash, id_customer, total_cash) 
+                VALUES (NULL, LAST_INSERT_ID(), 0)'
+            )) {
+                $create_wallet->execute();
+                $create_wallet->close();
             } else {
                 echo 'Could not prepare statement!';
             }

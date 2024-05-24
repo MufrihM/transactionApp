@@ -21,7 +21,11 @@ $(document).ready(function () {
 					}, 1000);
 					return;
 				} else {
-					swal("Login successful!", "Please enter ok!", "success").then(() => {
+					Swal.fire({
+						title: "Login successful!",
+						text: "Please click ok!",
+						icon: "success",
+					}).then(() => {
 						location.href = "../../../transactionApp";
 					});
 				}
