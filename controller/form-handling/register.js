@@ -20,18 +20,20 @@ $(document).ready(function () {
 				var data = JSON.parse(response);
 
 				if (data.email_exists == "true") {
-					swal("Email already exists!", "Please use another email", "error");
-					return;
-				} else {
 					// script untuk menampilkan notifikasi
-					$(".msg").html("User registration successful!");
+					$(".msg").html("Error: Email already exists!");
 					$(".alert").addClass("show");
 					$(".alert").removeClass("hide");
 					$(".alert").addClass("showAlert");
 					setTimeout(function () {
 						$(".alert").removeClass("show");
 						$(".alert").addClass("hide");
-					}, 5000);
+					}, 1000);
+					return;
+				} else {
+					swal("Registration successful!", "You can login now", "success").then(() => {
+						location.href = "../../../transactionApp/view/test/login.php";
+					});
 				}
 			}
 		);
