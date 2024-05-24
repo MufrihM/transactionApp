@@ -14,6 +14,13 @@ if ($query = $db->prepare('SELECT * FROM users WHERE email = ?')) {
             // set session
             $_SESSION['login']= true; 
 
+            // set cookie
+            if (isset($_POST['remember'])) {
+                // create new cookie
+                setcookie('id_user', $id_user, time() + 60, "/");
+                setcookie('token', hash('sha256', $email), time() + 60,'/');
+            }
+
             $response = ["login" => "true"];
             echo json_encode($response);
         } else{
