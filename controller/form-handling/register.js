@@ -9,7 +9,11 @@ $(document).ready(function () {
 		var confirmPassword = params.get("confirm-password");
 
 		if (password != confirmPassword) {
-			swal("Password not match!", "Please check your password again", "error");
+			swal.fire({
+				title: "Password not match!",
+				text: "Please check your password again",
+				icon: "error",
+			});
 			return;
 		}
 
@@ -31,7 +35,11 @@ $(document).ready(function () {
 					}, 1000);
 					return;
 				} else {
-					swal("Registration successful!", "You can login now", "success").then(() => {
+					Swal.fire({
+						title: "Registration successful!",
+						text: "You can login now!",
+						icon: "success",
+					}).then(() => {
 						location.href = "../../../transactionApp/view/test/login.php";
 					});
 				}
