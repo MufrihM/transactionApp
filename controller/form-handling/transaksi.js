@@ -24,11 +24,14 @@ $(document).ready(function () {
 		event.preventDefault();
 		var data = $(this).serialize();
 		var transactionId = $(this).data("id");
-		console.log(transactionId);
+		var oldTotal = $(this).data("oldtotal");
+		var oldtype = $(this).data("oldtype");
+
+		data +=
+			"&id=" + transactionId + "&oldtotal=" + oldTotal + "&oldtype=" + oldtype;
 
 		$.post(
-			"../../../transactionApp/controller/tools/transaksi.php?action=update&id=" +
-				transactionId,
+			"../../../transactionApp/controller/tools/transaksi.php?action=update",
 			data,
 			function () {
 				Swal.fire({
@@ -52,7 +55,7 @@ $(document).ready(function () {
 			firstRandomString + "" + transactionId + "" + secondRandomString;
 
 		location.href =
-			"../../../transactionApp/view/test/update-transaksi.php?id=" +
+			"../../../transactionApp/view/test/update-transaksi.php?token=" +
 			urlGetParams;
 	});
 });

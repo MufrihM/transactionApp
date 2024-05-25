@@ -46,33 +46,52 @@ function setNewTransaksi($db, $id_user){
     }
 }
 
-function setUpdateTransaksi($db, $data){
+function setUpdateTransaksi($db, $id_user, $data){
     if ($stmt = $db->prepare(
         'UPDATE transaksi 
         SET name_transaksi = ?, date_transaksi = ?, total_transaksi = ?, type_transaksi = ? 
         WHERE id_transaksi = ?'
     )) {
+        
         $stmt->bind_param(
             'ssisi',
             $data['name'],
             $data['date'],
             $data['total'],
             $data['type'],
-            $_GET['id']
+            $data['id']
         );
         $stmt->execute();
         $stmt->close();
+
+        if ($cash_amount = $db->prepare(
+            'UPDATE cash SET total_cash = total_cash + ? WHERE id_customer = (select id_customer from customers where id_user = ?)'
+        )) {
+
+            $new_total = 0;
+            switch ($data['type']) {
+                case 'pemasukan':
+                    $new_total = $data['total'] - ($data['oldtype'] == 'pemasukan' ? $data['oldtotal'] : -$data['oldtotal']);
+                    break;
+                case 'pengeluaran':
+                    $new_total = -$data['total'] - ($data['oldtype'] == 'pemasukan' ? $data['oldtotal'] : -$data['oldtotal']);
+                    break;
+            }
+            
+            $cash_amount->bind_param('ii', $new_total, $id_user);
+            $cash_amount->execute();
+            $cash_amount->close(true);
     } else {
         echo 'Could not prepare statement!';
     }
-}
+}}
 
 switch ($_GET['action']) {
     case 'create':
         setNewTransaksi($db, $id_user);
         break;
     case 'update':
-        setUpdateTransaksi($db, $_POST);
+        setUpdateTransaksi($db, $id_user, $_POST);
         break;
     default:
         break;
