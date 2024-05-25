@@ -58,6 +58,44 @@ $(document).ready(function () {
 			"../../../transactionApp/view/test/update-transaksi.php?token=" +
 			urlGetParams;
 	});
+
+	$(".delete").click(function () {
+		var transactionId = $(this).data("id");
+		var transactionType = $(this).data("type");
+		var transactionTotal = $(this).data("total");
+		Swal.fire({
+			title: "Are you sure?",
+			text: "You won't be able to revert this!",
+			icon: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#3085d6",
+			cancelButtonColor: "#d33",
+			confirmButtonText: "Yes, delete it!",
+		}).then((result) => {
+			if (result.isConfirmed) {
+				$.post(
+					"../../../transactionApp/controller/tools/transaksi.php?action=delete",
+					{
+						id: transactionId,
+						type: transactionType,
+						total: transactionTotal,
+					},
+					function () {
+						Swal.fire(
+							"Deleted!",
+							"Transaksi has been deleted.",
+							"success"
+						).then((result) => {
+							if (result.isConfirmed) {
+								location.href =
+									"../../../transactionApp/view/test/dashboard.php";
+							}
+						});
+					}
+				);
+			}
+		});
+	});
 });
 
 function generateRandomString(length) {
