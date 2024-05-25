@@ -86,12 +86,45 @@ function setUpdateTransaksi($db, $id_user, $data){
     }
 }}
 
+function setDeleteTransaksi($db, $id_user){
+    if ($stmt = $db->prepare('DELETE FROM transaksi WHERE id_transaksi = ?')) {
+        $stmt->bind_param('i', $_POST['id']);
+        $stmt->execute();
+        $stmt->close();
+
+        $new_total = 0;
+        switch ($_POST['type']) {
+            case 'pemasukan':
+                $new_total = $_POST['total'];
+                break;
+            case 'pengeluaran':
+                $new_total = -$_POST['total'];
+                break;
+        }
+
+        if ($cash_amount = $db->prepare(
+            'UPDATE cash SET total_cash = total_cash - ? WHERE id_customer = (select id_customer from customers where id_user = ?)'
+        )) {
+            $cash_amount->bind_param('ii', $new_total, $id_user);
+            $cash_amount->execute();
+            $cash_amount->close();
+    } else {
+        echo 'Could not prepare statement!';
+    }
+    } else {
+        echo 'Could not prepare statement!';
+    }
+}
+
 switch ($_GET['action']) {
     case 'create':
         setNewTransaksi($db, $id_user);
         break;
     case 'update':
         setUpdateTransaksi($db, $id_user, $_POST);
+        break;
+    case 'delete':
+        setDeleteTransaksi($db, $id_user);
         break;
     default:
         break;
