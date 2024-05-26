@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-indigo-600">
+    <div class="text-white pt-3 pl-3 fixed">
+        <div class="text-xl font-bold">
+            MANAJEMEN UANG
+        </div>
+    </div>
+    <div class="flex h-screen justify-center items-center">
+        <div class="w-80 bg-white rounded-lg shadow-lg p-3">
+            <div class="flex justify-center">
+                <div class="text-lg font-semibold">
+                    LOGIN
+                </div>
+            </div>
+            <div class="mt-2">
+                <form action="#">
+                    <div class="mt-2">
+                        <div class="flex flex-col">
+                            <label for="email">Email</label>
+                            <input class="border border-black rounded-sm pl-1" type="email" name="email" placeholder="abc@mail.com">
+                        </div>
+                    </div>
+                    <div class="mt-2">
+                        <div class="flex flex-col">
+                            <label for="pass">Password</label>
+                            <input class="border border-black rounded-sm pl-1" type="password" name="pass" placeholder="Masukkan password">
+                        </div>
+                    </div>
+                    <div class="mt-1">
+                        <input type="checkbox" name="remember">
+                        <label for="remember">Remember me</label>
+                    </div>
+                    <div class="flex justify-center mt-4 mb-2">
+                        <button class="bg-indigo-600 rounded-md py-1 px-3 text-white hover:bg-indigo-500" type="submit">
+                            LOGIN
+                        </button>
+                    </div>
+                    <div class="flex justify-center text-sm mb-3">
+                        <div class="">
+                            Apakah anda belum memiliki akun?
+                        </div>
+                        <a class="ml-1 underline hover:text-indigo-600" href="#">Klik di sini</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
