@@ -20,15 +20,13 @@ if ($stmt = $db->prepare('SELECT email FROM users WHERE email = ?')) {
             $stmt->execute();
 
             // insert customer data
-            if ($insert_customer = $db->prepare('INSERT INTO customers (id_customer, id_user, name, phone, address) 
-            VALUES (NULL, (select id_user from users where email = ?), ?, ?, ?)')) {
+            if ($insert_customer = $db->prepare('INSERT INTO customers (id_customer, id_user, name) 
+            VALUES (NULL, (select id_user from users where email = ?), ?)')) {
 
                 $insert_customer->bind_param(
-                    'ssss',
+                    'ss',
                     $_POST['email'],
-                    $_POST['name'],
-                    $_POST['phone'],
-                    $_POST['address']
+                    $_POST['name']
                 );
                 $insert_customer->execute();
                 $insert_customer->close();
