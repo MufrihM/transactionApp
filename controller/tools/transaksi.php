@@ -7,11 +7,10 @@ $id_user = $_SESSION['id_user'];
 function setNewTransaksi($db, $id_user){
     if ($stmt = $db->prepare(
         'INSERT INTO transaksi (id_transaksi, id_customer, date_transaksi, name_transaksi, total_transaksi, type_transaksi) 
-    VALUES (?, (select id_customer from customers where id_user = ?), ?, ?, ?, ?)'
+    VALUES (NULL, (select id_customer from customers where id_user = ?), ?, ?, ?, ?)'
     )) {
         $stmt->bind_param(
-            'iissss',
-            $_POST['id_transaksi'],
+            'issss',
             $id_user,
             $_POST['date'],
             $_POST['name'],
