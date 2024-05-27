@@ -28,7 +28,7 @@ if (isset($_SESSION["login"])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Login</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
@@ -74,7 +74,7 @@ if (isset($_SESSION["login"])) {
                         <div class="">
                             Apakah anda belum memiliki akun?
                         </div>
-                        <a class="ml-1 underline hover:text-indigo-600" href="#">Klik di sini</a>
+                        <a class="ml-1 underline hover:text-indigo-600" href="./register.php">Sign Up</a>
                     </div>
                 </form>
             </div>
