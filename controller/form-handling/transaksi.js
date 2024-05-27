@@ -4,7 +4,7 @@ $(document).ready(function () {
 		var data = $(this).serialize();
 
 		$.post(
-			"../../../transactionApp/controller/tools/transaksi.php?action=create",
+			"../../transactionApp/controller/tools/transaksi.php?action=create",
 			data,
 			function () {
 				Swal.fire({
@@ -13,7 +13,7 @@ $(document).ready(function () {
 					icon: "success",
 				}).then((result) => {
 					if (result.isConfirmed) {
-						location.href = "../../../transactionApp/view/test/dashboard.php";
+						location.href = "../../transactionApp";
 					}
 				});
 			}
@@ -31,7 +31,7 @@ $(document).ready(function () {
 			"&id=" + transactionId + "&oldtotal=" + oldTotal + "&oldtype=" + oldtype;
 
 		$.post(
-			"../../../transactionApp/controller/tools/transaksi.php?action=update",
+			"../../transactionApp/controller/tools/transaksi.php?action=update",
 			data,
 			function () {
 				Swal.fire({
@@ -40,7 +40,7 @@ $(document).ready(function () {
 					icon: "success",
 				}).then((result) => {
 					if (result.isConfirmed) {
-						location.href = "../../../transactionApp/view/test/dashboard.php";
+						location.href = "../../transactionApp";
 					}
 				});
 			}
@@ -74,7 +74,7 @@ $(document).ready(function () {
 		}).then((result) => {
 			if (result.isConfirmed) {
 				$.post(
-					"../../../transactionApp/controller/tools/transaksi.php?action=delete",
+					"../../transactionApp/controller/tools/transaksi.php?action=delete",
 					{
 						id: transactionId,
 						type: transactionType,
@@ -88,7 +88,7 @@ $(document).ready(function () {
 						).then((result) => {
 							if (result.isConfirmed) {
 								location.href =
-									"../../../transactionApp/view/test/dashboard.php";
+									"../../transactionApp";
 							}
 						});
 					}
