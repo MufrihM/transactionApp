@@ -4,21 +4,17 @@ $(document).ready(function () {
 		var data = $(this).serialize();
 
 		$.post(
-			"../../../transactionApp/controller/authentication/user-login.php",
+			"../../transactionApp/controller/authentication/user-login.php",
 			data,
 			function (response) {
 				var data = JSON.parse(response);
 
 				if (data.login == "false") {
-					// script untuk menampilkan notifikasi
-					$(".msg").html("Error: Email or password wrong!");
-					$(".alert").addClass("show");
-					$(".alert").removeClass("hide");
-					$(".alert").addClass("showAlert");
-					setTimeout(function () {
-						$(".alert").removeClass("show");
-						$(".alert").addClass("hide");
-					}, 1000);
+					swal.fire({
+						title: "Email or password is wrong",
+						text: "Please check your email or password again!",
+						icon: "error",
+					});
 					return;
 				} else {
 					Swal.fire({
@@ -26,7 +22,7 @@ $(document).ready(function () {
 						text: "Please click ok!",
 						icon: "success",
 					}).then(() => {
-						location.href = "../../../transactionApp";
+						location.href = "../../transactionApp";
 					});
 				}
 			}
