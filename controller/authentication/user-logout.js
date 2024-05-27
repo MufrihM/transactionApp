@@ -11,9 +11,9 @@ $(document).ready(function () {
 		}).then((result) => {
 			if (result.isConfirmed) {
 				$.ajax({
-					url: "http://localhost:3000/Main_Program/Web%20Programming/AJAX/project/transactionApp/controller/authentication/user-logout.php",
+					url: "./transactionApp/controller/authentication/user-logout.php",
 					success: function () {
-						location.href = "../../../transactionApp/view/test/login.php";
+						location.href = "./transactionApp/views/login.php";
 					},
 				});
 			}

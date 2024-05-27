@@ -2,6 +2,11 @@
 
 include '../../database/connection.php';
 
+$lname = '';
+if (isset($_POST['lname'])) {
+    $lname = $_POST['lname'];
+}
+
 if ($stmt = $db->prepare('SELECT email FROM users WHERE email = ?')) {
     // Bind parameters (s = string, i = int, b = blob, etc)
     $stmt->bind_param('s', $_POST['email']);
@@ -23,10 +28,12 @@ if ($stmt = $db->prepare('SELECT email FROM users WHERE email = ?')) {
             if ($insert_customer = $db->prepare('INSERT INTO customers (id_customer, id_user, name) 
             VALUES (NULL, (select id_user from users where email = ?), ?)')) {
 
+                $fullname = $_POST['fname'] . ' ' . $lname;
+
                 $insert_customer->bind_param(
                     'ss',
                     $_POST['email'],
-                    $_POST['name']
+                    $fullname
                 );
                 $insert_customer->execute();
                 $insert_customer->close();

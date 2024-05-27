@@ -10,29 +10,36 @@ $(document).ready(function () {
 
 		if (password != confirmPassword) {
 			swal.fire({
-				title: "Password not match!",
-				text: "Please check your password again",
+				title: "Password not match",
+				text: "Please check your password again!",
 				icon: "error",
 			});
 			return;
 		}
 
 		$.post(
-			"../../../transactionApp/controller/authentication/user-register.php",
+			"../../transactionApp/controller/authentication/user-register.php",
 			data,
 			function (response) {
 				var data = JSON.parse(response);
 
 				if (data.email_exists == "true") {
 					// script untuk menampilkan notifikasi
-					$(".msg").html("Error: Email already exists!");
-					$(".alert").addClass("show");
-					$(".alert").removeClass("hide");
-					$(".alert").addClass("showAlert");
-					setTimeout(function () {
-						$(".alert").removeClass("show");
-						$(".alert").addClass("hide");
-					}, 1000);
+					// $(".msg").html("Error: Email already exists!");
+					// $(".alert").addClass("show");
+					// $(".alert").removeClass("hide");
+					// $(".alert").addClass("showAlert");
+					// setTimeout(function () {
+					// 	$(".alert").removeClass("show");
+					// 	$(".alert").addClass("hide");
+					// }, 1000);
+					// return;
+
+					swal.fire({
+						title: "Email already exists",
+						text: "Please choose another email!",
+						icon: "error",
+					});
 					return;
 				} else {
 					Swal.fire({
@@ -40,15 +47,15 @@ $(document).ready(function () {
 						text: "You can login now!",
 						icon: "success",
 					}).then(() => {
-						location.href = "../../../transactionApp/view/test/login.php";
+						location.href = "../../transactionApp/views/login.php";
 					});
 				}
 			}
 		);
 	});
 
-	$(".close-btn").click(function () {
-		$(".alert").removeClass("show");
-		$(".alert").addClass("hide");
-	});
+	// $(".close-btn").click(function () {
+	// 	$(".alert").removeClass("show");
+	// 	$(".alert").addClass("hide");
+	// });
 });
