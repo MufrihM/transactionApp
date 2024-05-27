@@ -13,8 +13,7 @@ $(document).ready(function () {
 				$.ajax({
 					url: "http://localhost:3000/Main_Program/Web%20Programming/AJAX/project/transactionApp/controller/authentication/user-logout.php",
 					success: function () {
-						location.href =
-							"http://localhost:3000/Main_Program/Web%20Programming/AJAX/project/transactionApp/view/test/login.php";
+						location.href = "../../../transactionApp/view/test/login.php";
 					},
 				});
 			}
