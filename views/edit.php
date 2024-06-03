@@ -1,11 +1,59 @@
 <?php
 session_start();
+include ("../database/connection.php");
+require_once ("../model/transaksi.php");
 
 if (!isset($_SESSION["login"])) {
     echo "<script>location.href = 
     './login.php';
     </script>";
     exit;
+}
+
+if (!isset($_GET['token']) || strlen(trim($_GET['token'])) <= 20) {
+    echo "<script>location.href = 
+    './home.php';
+    </script>";
+    exit;
+}
+
+function getSubstring($input, $length)
+{
+    $result = substr($input, 10, $length);
+    return $result;
+}
+
+$inputString = $_GET['token'];
+$result = getSubstring($inputString, strlen($inputString) - 20);
+$id_transaksi = $result;
+
+$query = mysqli_query($db, "SELECT * FROM transaksi WHERE id_transaksi = $id_transaksi");
+if (mysqli_num_rows($query) == 0) {
+    header("Location: ./home.php");
+    exit;
+}
+$row = mysqli_fetch_assoc($query);
+
+$transaksi = new Transaksi(
+    $row['id_transaksi'],
+    $row['id_customer'],
+    $row['date_transaksi'],
+    $row['name_transaksi'],
+    $row['total_transaksi'],
+    $row['type_transaksi']
+);
+function setSelectedTypeOption($transaksi)
+{
+    $enum_type = ["pengeluaran", "pemasukan"];
+
+    foreach ($enum_type as $type) {
+        $cptlz = ucfirst($type);
+        if ($type == $transaksi->getTypeTransaksi()) {
+            echo "<option value='$type' selected>$cptlz</option>";
+        } else {
+            echo "<option value='$type'>$cptlz</option>";
+        }
+    }
 }
 ?>
 
@@ -15,7 +63,7 @@ if (!isset($_SESSION["login"])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tambah Data</title>
+    <title>Ubah Data</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
@@ -40,30 +88,35 @@ if (!isset($_SESSION["login"])) {
     <div class="flex w-screen h-screen justify-center items-center bg-grey-100 ml-56">
         <div class="bg-white w-80 rounded-lg shadow-xl py-3 px-5">
             <div class="flex justify-center mb-2">
-                <div class="text-lg font-semibold">Tambah Data</div>
+                <div class="text-lg font-semibold">Ubah Data</div>
             </div>
             <div class="mt-1">
-                <form action="" class="create" method="post">
+                <form action="" class="update" data-id="<?php echo $transaksi->getIdTransaksi() ?>"
+                    data-oldtotal="<?php echo $transaksi->getTotalTransaksi() ?>"
+                    data-oldtype="<?php echo $transaksi->getTypeTransaksi() ?>" method="post">
+
                     <div class="flex flex-col mb-2">
                         <label for="nama">Nama Transaksi</label>
-                        <input class="border border-gray-400 rounded-sm py-1 pl-1" type="text" name="name" required>
+                        <input class="border border-gray-400 rounded-sm py-1 pl-1" type="text" name="name"
+                            value="<?php echo $transaksi->getNameTransaksi() ?>" required>
                     </div>
                     <div class="flex flex-col mb-2">
                         <label for="tanggal">Tanggal</label>
-                        <input class="border border-gray-400 rounded-sm py-1 pl-1" type="date" name="date" required>
+                        <input class="border border-gray-400 rounded-sm py-1 pl-1" type="date" name="date"
+                            value="<?php echo $transaksi->getDateTransaksi() ?>" required>
                     </div>
                     <div class="flex flex-col mb-2 rounded-sm">
                         <label for="jenis">Jenis Transaksi</label>
                         <select class="border border-gray-400 rounded-sm py-1 pl-1" name="type" id="type" required>
-                            <option value="pengeluaran">Pengeluaran</option>
-                            <option value="pemasukan">Pemasukan</option>
+                            <?php setSelectedTypeOption($transaksi); ?>
                         </select>
                         <!-- <label for="jenis">Jenis Transaksi</label>
                         <input class="border border-gray-400 rounded-sm" type="text" name="jenis"> -->
                     </div>
                     <div class="flex flex-col mb-2">
                         <label for="jumlah">Jumlah Transaksi</label>
-                        <input class="border border-gray-400 rounded-sm py-1 pl-1" type="number" name="total" required>
+                        <input class="border border-gray-400 rounded-sm py-1 pl-1" type="number" name="total"
+                            value="<?php echo $transaksi->getTotalTransaksi() ?>" required>
                     </div>
                     <div class="flex justify-center mt-4 mb-2">
                         <button class="bg-indigo-600 rounded-md text-white font-semibold py-1 px-2"
