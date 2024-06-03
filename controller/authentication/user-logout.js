@@ -1,5 +1,5 @@
 $(document).ready(function () {
-	$("button").click(function () {
+	$("#logout").click(function () {
 		Swal.fire({
 			title: "Are you sure?",
 			text: "You must login again!",
@@ -11,9 +11,9 @@ $(document).ready(function () {
 		}).then((result) => {
 			if (result.isConfirmed) {
 				$.ajax({
-					url: "./transactionApp/controller/authentication/user-logout.php",
+					url: "../controller/authentication/user-logout.php",
 					success: function () {
-						location.href = "./transactionApp/views/login.php";
+						location.href = "../views/login.php";
 					},
 				});
 			}

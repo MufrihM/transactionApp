@@ -55,7 +55,7 @@ $(document).ready(function () {
 			firstRandomString + "" + transactionId + "" + secondRandomString;
 
 		location.href =
-			"../../../transactionApp/view/test/update-transaksi.php?token=" +
+			"../../transactionApp/views/edit.php?token=" +
 			urlGetParams;
 	});
 

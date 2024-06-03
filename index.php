@@ -8,7 +8,7 @@ if (!isset($_SESSION["login"])) {
     exit;
 } else{
     echo "<script>location.href = 
-    './transactionApp/views/home.html';
+    './transactionApp/views/home.php';
     </script>";
     exit;
 }
