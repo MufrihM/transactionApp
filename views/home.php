@@ -48,8 +48,7 @@ JOIN users on customers.id_user = users.id_user
 WHERE users.id_user = $id_user and transaksi.type_transaksi = 'pengeluaran';"
     );
     $user_cash = mysqli_fetch_assoc($cash_data_only_expense);
-}
-;
+};
 
 $formatted_cash = number_format($user_cash['total_cash'], 0, '', '.');
 $user_cash_name = $user_cash['name'];
@@ -150,10 +149,10 @@ $user_cash_pengeluaran = number_format($user_cash['total_pengeluaran'], 0, '', '
             <div class="flex justify-end">
                 <div class="border border-black rounded-lg w-32 bg-white">
                     <form action="#" class="pl-2">
-                        <select name="" id="">
-                            <option value="">Button AJAX</option>
-                            <option value="">Button AJAX</option>
-                            <option value="">Button AJAX</option>
+                        <select id="type_transaksi">
+                            <option selected value="all">All</option>
+                            <option value="pengeluaran">Pengeluaran</option>
+                            <option value="pemasukan">Pemasukan</option>
                         </select>
                     </form>
                 </div>
@@ -169,7 +168,7 @@ $user_cash_pengeluaran = number_format($user_cash['total_pengeluaran'], 0, '', '
                             <th class="px-6">Action</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="ajax-type">
                         <?php
                         $index = 1;
                         while ($row = mysqli_fetch_array($query)) {
@@ -261,5 +260,6 @@ $user_cash_pengeluaran = number_format($user_cash['total_pengeluaran'], 0, '', '
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="../controller/form-handling/transaksi.js"></script>
 <script src="../controller/authentication/user-logout.js"></script>
+<script src="../controller/AJAX/script-filter.js"></script>
 
 </html>

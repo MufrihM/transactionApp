@@ -1,7 +1,7 @@
-var jenis = document.getElementById("jenis");
-var data = document.getElementById("data");
+var type = document.getElementById("type_transaksi");
+var data = document.getElementById("ajax-type");
 
-jenis.addEventListener("change", function () {
+type.addEventListener("change", function () {
     // initiate ajax object
     var ObjAjax = new XMLHttpRequest();
 
@@ -14,9 +14,10 @@ jenis.addEventListener("change", function () {
     };
 
     ObjAjax.open(
-        "get",
-        "./controller/filter-siswaApp.php?jenis=" + jenis.value,
-        true
-    );
+			"get",
+			"../controller/AJAX/filter-transaksi.php?type=" +
+				type.value,
+			true
+		);
     ObjAjax.send();
 });
