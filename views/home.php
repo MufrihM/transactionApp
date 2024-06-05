@@ -19,7 +19,7 @@ $query =
         "SELECT * FROM transaksi 
     join customers on transaksi.id_customer = customers.id_customer
     join users on customers.id_user = users.id_user
-    where users.id_user = $id_user"
+    where users.id_user = $id_user;"
     );
 
 $cash_data = mysqli_query(
@@ -48,7 +48,8 @@ JOIN users on customers.id_user = users.id_user
 WHERE users.id_user = $id_user and transaksi.type_transaksi = 'pengeluaran';"
     );
     $user_cash = mysqli_fetch_assoc($cash_data_only_expense);
-};
+}
+;
 
 $formatted_cash = number_format($user_cash['total_cash'], 0, '', '.');
 $user_cash_name = $user_cash['name'];
