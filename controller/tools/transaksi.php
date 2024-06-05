@@ -4,11 +4,14 @@ include '../../database/connection.php';
 
 $id_user = $_SESSION['id_user'];
 
-function setNewTransaksi($db, $id_user){
-    if ($stmt = $db->prepare(
-        'INSERT INTO transaksi (id_transaksi, id_customer, date_transaksi, name_transaksi, total_transaksi, type_transaksi) 
+function setNewTransaksi($db, $id_user)
+{
+    if (
+        $stmt = $db->prepare(
+            'INSERT INTO transaksi (id_transaksi, id_customer, date_transaksi, name_transaksi, total_transaksi, type_transaksi) 
     VALUES (NULL, (select id_customer from customers where id_user = ?), ?, ?, ?, ?)'
-    )) {
+        )
+    ) {
         $stmt->bind_param(
             'issss',
             $id_user,
@@ -20,12 +23,14 @@ function setNewTransaksi($db, $id_user){
         $stmt->execute();
         $stmt->close();
 
-        if ($cash_amount = $db->prepare(
-            'UPDATE cash SET total_cash = total_cash + ? WHERE id_customer = (select id_customer from customers where id_user = ?)'
-        )) {
-            
+        if (
+            $cash_amount = $db->prepare(
+                'UPDATE cash SET total_cash = total_cash + ? WHERE id_customer = (select id_customer from customers where id_user = ?)'
+            )
+        ) {
+
             $total_transaksi = 0;
-            switch($_POST['type']) {
+            switch ($_POST['type']) {
                 case 'pemasukan':
                     $total_transaksi = $_POST['total'];
                     break;
@@ -33,7 +38,7 @@ function setNewTransaksi($db, $id_user){
                     $total_transaksi = -$_POST['total'];
                     break;
             }
-            
+
             $cash_amount->bind_param('ii', $total_transaksi, $id_user);
             $cash_amount->execute();
             $cash_amount->close();
@@ -45,13 +50,16 @@ function setNewTransaksi($db, $id_user){
     }
 }
 
-function setUpdateTransaksi($db, $id_user, $data){
-    if ($stmt = $db->prepare(
-        'UPDATE transaksi 
+function setUpdateTransaksi($db, $id_user, $data)
+{
+    if (
+        $stmt = $db->prepare(
+            'UPDATE transaksi 
         SET name_transaksi = ?, date_transaksi = ?, total_transaksi = ?, type_transaksi = ? 
         WHERE id_transaksi = ?'
-    )) {
-        
+        )
+    ) {
+
         $stmt->bind_param(
             'ssisi',
             $data['name'],
@@ -63,9 +71,11 @@ function setUpdateTransaksi($db, $id_user, $data){
         $stmt->execute();
         $stmt->close();
 
-        if ($cash_amount = $db->prepare(
-            'UPDATE cash SET total_cash = total_cash + ? WHERE id_customer = (select id_customer from customers where id_user = ?)'
-        )) {
+        if (
+            $cash_amount = $db->prepare(
+                'UPDATE cash SET total_cash = total_cash + ? WHERE id_customer = (select id_customer from customers where id_user = ?)'
+            )
+        ) {
 
             $new_total = 0;
             switch ($data['type']) {
@@ -76,16 +86,20 @@ function setUpdateTransaksi($db, $id_user, $data){
                     $new_total = -$data['total'] - ($data['oldtype'] == 'pemasukan' ? $data['oldtotal'] : -$data['oldtotal']);
                     break;
             }
-            
+
             $cash_amount->bind_param('ii', $new_total, $id_user);
             $cash_amount->execute();
-            $cash_amount->close(true);
+            $cash_amount->close();
+        } else {
+            echo 'Could not prepare statement!';
+        }
     } else {
         echo 'Could not prepare statement!';
     }
-}}
+}
 
-function setDeleteTransaksi($db, $id_user){
+function setDeleteTransaksi($db, $id_user)
+{
     if ($stmt = $db->prepare('DELETE FROM transaksi WHERE id_transaksi = ?')) {
         $stmt->bind_param('i', $_POST['id']);
         $stmt->execute();
@@ -101,15 +115,17 @@ function setDeleteTransaksi($db, $id_user){
                 break;
         }
 
-        if ($cash_amount = $db->prepare(
-            'UPDATE cash SET total_cash = total_cash - ? WHERE id_customer = (select id_customer from customers where id_user = ?)'
-        )) {
+        if (
+            $cash_amount = $db->prepare(
+                'UPDATE cash SET total_cash = total_cash - ? WHERE id_customer = (select id_customer from customers where id_user = ?)'
+            )
+        ) {
             $cash_amount->bind_param('ii', $new_total, $id_user);
             $cash_amount->execute();
             $cash_amount->close();
-    } else {
-        echo 'Could not prepare statement!';
-    }
+        } else {
+            echo 'Could not prepare statement!';
+        }
     } else {
         echo 'Could not prepare statement!';
     }

@@ -1,6 +1,10 @@
 <?php
 session_start();
+// ini di pbw error, tapi di localhost dan hosting aman
 include ("../database/connection.php");
+
+// pbw bisanya gini
+// include '../database/connection.php';
 
 if (isset($_COOKIE['id_user']) && isset($_COOKIE['token'])) {
     $id_user = $_COOKIE['id_user'];
