@@ -36,9 +36,9 @@ $total_pengeluaran = 0;
 
 while ($row = mysqli_fetch_array($query_cashflow)) {
     if ($row['type_transaksi'] === 'pemasukan') {
-        $total_pemasukan = $row['total_transaksi'];
+        $total_pemasukan += $row['total_transaksi'];
     } else {
-        $total_pengeluaran = $row['total_transaksi'];
+        $total_pengeluaran += $row['total_transaksi'];
     };
 };
 
